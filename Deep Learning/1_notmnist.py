@@ -10,6 +10,7 @@ import matplotlib.image as mpimg
 import numpy as np
 import os
 import sys
+import random
 from scipy import ndimage
 from sklearn.linear_model import LogisticRegression
 from six.moves.urllib.request import urlretrieve
@@ -92,19 +93,19 @@ test_folders = DataFloder(test_filename)
 #! Display a sample of th images that we just downloaded
 #! Hint: you can use the package IPython.display
 
-def ShowImage(folder_index = None,file_index = None):
-	if not folder_index:
-		folder_index = 0
-	if not file_index:
-		file_index = 0
-	file_names = os.listdir(os.path.join(os.getcwd(),train_folders[folder_index]))
-	file_path = os.path.join(os.getcwd(),train_folders[folder_index],file_names[file_index])
-	return mpimg.imread(file_path)
-images = [ShowImage(i,j) for i in range(10) for j in [9]]
+def TrainImageShow(folder_index = 0):
+	folder_path = os.path.join(os.getcwd(),train_folders[folder_index])
+	image_files = os.listdir(folder_path)
+	#! @brief only one picture pick
+	image_sample = random.sample(image_files,1)
+	image_path = os.path.join(folder_path,image_sample[0])
+	print(image_path)
+	return mpimg.imread(image_path)
+images = [TrainImageShow(i) for i in range(0,10)]
 for image in images:
 	plt.imshow(image,cmap='Greys_r')
 	#! @breif show image
-#	plt.show()
+	plt.show()
 	
 #! Now let's load the data in a more manageable format. 
 #! Since, depending on your computer setup you might not be able to fit it all in memory, 
@@ -179,7 +180,7 @@ plt.show()
 #! Another check: we expect the data to be balanced across classes. Verify that.
 for pickle_file in train_datasets:
 	data = pickle.load(open(pickle_file,'rb'))
-	print(pickle_file," size:",data.shape[0])
+	print("Number of" ,pickle_file,"images:",data.shape[0])
 	
 #! Merge and prune the training data as needed. 
 #! Depending on your computer setup, you might not be able to fit it all in memory, 
@@ -344,11 +345,8 @@ print("Time: %0.2fs" % (time.time()-start))
 #! Optional question: 
 #! 	* train an off-the-shelf model on all the data!
 
-num_train = train_dataset.shape[0]
-num_validation = valid_dataset.shape[0]
-num_test = test_dataset.shape[0]
+
 num_features = image_size**2
-print(num_train,num_validation,num_test,num_features)
 
 def MakeDatasetSample(dataset,labels,num_samples=None):
 	if num_samples:
@@ -365,8 +363,8 @@ for num_samples in [50,100,1000,5000,train_dataset.shape[0]]:
 	model.fit(dataset,labels)
 	print("Training model using %0.2fs" % (time.time()-start))
 	print("Traning accurary:",model.score(dataset,labels))
-	print("Validation accuracy: ",model.score(valid_dataset.reshape(num_validation,num_features),valid_labels))
-	print("Test accuracy: ",model.score(test_dataset.reshape(num_test,num_features),test_labels))
+	print("Validation accuracy: ",model.score(valid_dataset.reshape(valid_dataset.shape[0],num_features),valid_labels))
+	print("Test accuracy: ",model.score(test_dataset.reshape(test_dataset.shape[0],num_features),test_labels))
 	print("")
 	
 	

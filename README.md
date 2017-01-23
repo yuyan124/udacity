@@ -1,4 +1,4 @@
 #Udacity
 
 ###Projects List
-*Deep Learning
+* Deep Learning

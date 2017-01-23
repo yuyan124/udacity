@@ -46,7 +46,7 @@ print('Training set', train_dataset.shape, train_labels.shape)
 print('Validation set', valid_dataset.shape, valid_labels.shape)
 print('Test set', test_dataset.shape, test_labels.shape)
 
-#! We're first going to train a multinomial logistic regression using simple gradient descent.
+#! We're first going to train a multinomial logitsic regression using simple gradient descent.
 #! TensorFlow works like this:
 #! * First you describe the computation that you want to see performed: what the inputs, the variables,
 #!   and the operations look like. These get created as nodes over a computation graph.
@@ -195,7 +195,7 @@ with tf.Session(graph=graph) as session:
 	print("Test accuracy: %.1f%%" % accuracy(test_prediction.eval(), test_labels))
 	
 #! Problem
-#! Turn the logistic regression example with SGD into a 1-hidden layer neural network 
+#! Turn the logitsic regression example with SGD into a 1-hidden layer neural network 
 #! with rectified linear units nn.relu() and 1024 hidden nodes. 
 #! This model should improve your validation / test accuracy.
 
@@ -205,7 +205,7 @@ hidden_layer_nodes = 1024
 graph = tf.Graph()
 with graph.as_default():
 
-	# Input data. For the training data, we use a placeholder that will be fed
+	# Input data. For the trainlogitsing data, we use a placeholder that will be fed
 	# at run time with a training minibatch.
 	tf_train_dataset = tf.placeholder(tf.float32,shape=(batch_size, image_size * image_size))
 	tf_train_labels = tf.placeholder(tf.float32, shape=(batch_size, num_labels))
